@@ -1,5 +1,5 @@
 # nearest-store-locator-api
-A REST API with and Store resource.
+A REST API with a Store resource.
 
 # Integrating the AppDirect APIs
 Integrating the Companies and Subscription APIs from AppDirect with Signed-Fetch ( 2- legged) OAuth.
