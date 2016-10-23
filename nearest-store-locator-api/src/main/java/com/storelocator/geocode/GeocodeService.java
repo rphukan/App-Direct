@@ -12,7 +12,7 @@ import com.google.maps.model.LatLng;
 import com.storelocator.model.Store;
 
 /**
- * Service to locate the latitude and longitude of a shop. Uses Google's
+ * Service to locate the latitude and longitude of a store. Uses Google's
  * Geocoding service.
  * 
  * @author ranjan
@@ -65,17 +65,17 @@ public class GeocodeService {
 	}
 
 	/**
-	 * return the geocode of the shop
+	 * return the geocode of the store
 	 * 
-	 * @param shop
+	 * @param store
 	 * @return
 	 */
-	public LatLng getGeocode(Store shop) {
+	public LatLng getGeocode(Store store) {
 		initializeGeoApiContext();
 		GeocodingResult[] results = null;
 		LatLng geocode = null;
 		try {
-			results = GeocodingApi.geocode(context, getFormattedAddress(shop)).await();
+			results = GeocodingApi.geocode(context, getFormattedAddress(store)).await();
 			geocode = results[0].geometry.location;
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, "Exception in invoking Google geocoding API :", e.getCause());
@@ -86,11 +86,11 @@ public class GeocodeService {
 	/**
 	 * comma separated string formated address
 	 * 
-	 * @param shop
+	 * @param store
 	 * @return
 	 */
-	private String getFormattedAddress(Store shop) {
-		String formattedAddress = shop.format();
+	private String getFormattedAddress(Store store) {
+		String formattedAddress = store.format();
 		LOG.log(Level.INFO, "Evaluating geocode for the address :", formattedAddress);
 		return formattedAddress;
 	}

@@ -16,7 +16,7 @@ import com.storelocator.geocode.GeocodeService;
 import com.storelocator.model.Store;
 
 /**
- * the controller for all the REST enpoints
+ * controller for the store REST endpoints
  * 
  * @author ranjan
  *
@@ -35,50 +35,50 @@ public class StoreLocator {
 	 * the data store
 	 */
 	@Autowired
-	@Qualifier("memoryStore")
-	private Repository<Store, LatLng> store;
+	@Qualifier("memoryRepo")
+	private Repository<Store, LatLng> repo;
 
 	/**
-	 * REST endpoint for adding a shop
+	 * REST endpoint for adding a store
 	 * 
-	 * @param shop
+	 * @param store
 	 */
-	@RequestMapping(path = "/shop", method = RequestMethod.POST)
-	public void addShop(@RequestBody Store shop) {
-		LatLng geocode = geocodeService.getGeocode(shop);
+	@RequestMapping(path = "/store", method = RequestMethod.POST)
+	public void addStore(@RequestBody Store store) {
+		LatLng geocode = geocodeService.getGeocode(store);
 		if (null != geocode) {
-			shop.setLatitude(geocode.lat);
-			shop.setLongitude(geocode.lng);
+			store.setLatitude(geocode.lat);
+			store.setLongitude(geocode.lng);
 		}
-		store.add(shop);
+		repo.add(store);
 	}
 
 	/**
-	 * REST endpoint to find the nearest shop from a location marked with
+	 * REST endpoint to find the nearest store from a location marked with
 	 * latitude and longitude
 	 * 
 	 * @param latitude,
 	 *            the latitude of the customer
 	 * @param longitude,
 	 *            the longitude of the customer
-	 * @return the nearest shop
+	 * @return the nearest store
 	 */
-	@RequestMapping(path = "/shop/{latitude}/{longitude}", method = RequestMethod.GET)
-	public Store getShop(@PathVariable double latitude, @PathVariable double longitude) {
+	@RequestMapping(path = "/store/{latitude}/{longitude}", method = RequestMethod.GET)
+	public Store getStore(@PathVariable double latitude, @PathVariable double longitude) {
 		LatLng geocode = new LatLng(latitude, longitude);
-		Store shop = store.get(geocode);
-		return shop;
+		Store store = repo.get(geocode);
+		return store;
 	}
 
 	/**
 	 * REST endpoint for a default request without the customer latitude and
 	 * longitude
 	 * 
-	 * @return returns all the registered shops
+	 * @return returns all the registered stores
 	 */
-	@RequestMapping(path = "/shop", method = RequestMethod.GET)
-	public List<Store> getShops() {
-		return store.getAll();
+	@RequestMapping(path = "/store", method = RequestMethod.GET)
+	public List<Store> getStores() {
+		return repo.getAll();
 	}
 
 }

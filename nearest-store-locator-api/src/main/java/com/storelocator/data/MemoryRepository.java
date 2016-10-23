@@ -9,7 +9,7 @@ import com.google.maps.model.LatLng;
 import com.storelocator.model.Store;
 
 /**
- * An in memory store which stores all the data in an array list. Provide a
+ * An in memory repository which stores all the data in an array list. Provide a
  * different implementation if you want data persistence.
  * 
  * @author ranjan
@@ -28,16 +28,16 @@ public class MemoryRepository implements Repository<Store, LatLng> {
 	private final List<Store> data = new ArrayList<>();
 
 	/**
-	 * get the shop nearest to a geocode
+	 * get the store nearest to a geocode
 	 */
 	@Override
 	public Store get(LatLng geocode) {
-		Store nearestShop = findNearest(geocode);
-		return nearestShop;
+		Store nearestStore = findNearest(geocode);
+		return nearestStore;
 	}
 
 	/**
-	 * get all the registered shops
+	 * get all the registered stores
 	 */
 	@Override
 	public List<Store> getAll() {
@@ -45,7 +45,7 @@ public class MemoryRepository implements Repository<Store, LatLng> {
 	}
 
 	/**
-	 * register a shop
+	 * register a c
 	 */
 	@Override
 	public Store add(Store item) {
@@ -54,7 +54,7 @@ public class MemoryRepository implements Repository<Store, LatLng> {
 	}
 
 	/**
-	 * Find the shop nearest to this geocode
+	 * Find the store nearest to this geocode
 	 * 
 	 * @param geocode
 	 * @return
@@ -65,23 +65,23 @@ public class MemoryRepository implements Repository<Store, LatLng> {
 		double lon1 = geocode.lng;
 		// hold the nearest distance found till now
 		double nearestDist = -1;
-		// hold the reference to the nearest shop found till now
-		Store nearestShop = null;
+		// hold the reference to the nearest store found till now
+		Store nearestStore = null;
 		for (Store store : data) {
-			// latitude and longitude of the shop to compare
+			// latitude and longitude of the store to compare
 			double lat2 = store.getLatitude();
 			double lon2 = store.getLongitude();
-			// distance to the shop in comparison
+			// distance to the store in comparison
 			double dist = Util.haversine(lat1, lon1, lat2, lon2);
-			// if the shop in comparison is nearer than the previous shop or if
-			// it is the first shop
+			// if the store in comparison is nearer than the previous store or if
+			// it is the first store
 			if (dist < nearestDist || nearestDist == -1) {
-				nearestShop = store;
+				nearestStore = store;
 				nearestDist = dist;
-				LOG.log(Level.INFO, " Shop " + nearestShop.getName() + " found at " + nearestDist + " KM");
+				LOG.log(Level.INFO, " store " + nearestStore.getName() + " found at " + nearestDist + " KM");
 			}
 		}
-		return nearestShop;
+		return nearestStore;
 	}
 
 }

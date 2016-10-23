@@ -28,9 +28,9 @@ public class StoreLocatorApplication {
 		return service;
 	}
 
-	@Bean(name = "memoryStore")
+	@Bean(name = "memoryRepo")
 	@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-	public Repository<Store, LatLng> getMemoryStore() {
+	public Repository<Store, LatLng> getMemoryRepo() {
 		return new MemoryRepository();
 	}
 }
